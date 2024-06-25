@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
         try {
             const { data: response } = await axios.post('/auth/login', payload);
             setUser(response.data);
+            localStorage.setItem('accessToken', response.token);
             navigate('/');
         } catch (err) {
             const { errors } = err.response.data;
@@ -27,6 +28,7 @@ const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem('accessToken');
         navigate('/login');
     }
 
