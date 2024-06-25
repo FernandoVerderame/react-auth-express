@@ -28,7 +28,7 @@ const PostDeatil = () => {
     }, [slug]);
 
     const deletePost = async slug => {
-        await axios.delete(`${apiUrl}/posts/${slug}`);
+        await axios.delete(`/posts/${slug}`);
         navigate('/posts');
     }
 

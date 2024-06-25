@@ -32,7 +32,7 @@ const EditPost = () => {
     }, [slug]);
 
     const updatePost = async formData => {
-        const res = await axios.put(`${apiUrl}/posts/${slug}`, formData);
+        const res = await axios.put(`/posts/${slug}`, formData);
 
         if (res.status < 400) {
             navigate(`/posts/${res.data.slug}`);
