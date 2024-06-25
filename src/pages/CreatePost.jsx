@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from "../utils/axiosClient.js";
 import PostForm from "../components/Form/Form.jsx";
 import { Link, useNavigate } from "react-router-dom";
-const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const CreatePost = () => {
 
     const navigate = useNavigate();
 
     const createPost = async formData => {
-        const res = await axios.post(`${apiUrl}/posts`, formData);
+        const res = await axios.post(`/posts`, formData);
 
         if (res.status < 400) {
             navigate(`/posts/${res.data.slug}`);

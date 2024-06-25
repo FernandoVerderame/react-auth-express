@@ -1,9 +1,7 @@
-import axios from "axios";
+import axios from "../utils/axiosClient.js";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard/PostCard";
-
-const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const PostDeatil = () => {
 
@@ -14,7 +12,7 @@ const PostDeatil = () => {
 
     const fetchPost = async () => {
         try {
-            const res = await axios.get(`${apiUrl}/posts/${slug}`);
+            const res = await axios.get(`/posts/${slug}`);
             const newPost = res.data;
             setPost(newPost);
         } catch (error) {

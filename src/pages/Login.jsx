@@ -6,8 +6,8 @@ const Login = () => {
     const { login } = useAuth();
 
     const initialData = {
-        email: 'fernando@gmail.com',
-        password: '123123123'
+        email: '',
+        password: ''
     }
 
     const [formData, setFormData] = useState(initialData);

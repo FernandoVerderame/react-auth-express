@@ -1,8 +1,7 @@
-import axios from "axios";
+import axios from "../utils/axiosClient.js";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PostForm from "../components/Form/Form.jsx";
-const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const EditPost = () => {
 
@@ -13,7 +12,7 @@ const EditPost = () => {
     const [dataToEdit, setDataToEdit] = useState(null);
 
     const fetchDataToEdit = async () => {
-        const url = `${apiUrl}/posts/${slug}`;
+        const url = `/posts/${slug}`;
         const { data: p } = await axios.get(url);
         setDataToEdit({
             title: p.title,

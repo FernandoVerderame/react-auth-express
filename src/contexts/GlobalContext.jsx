@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-const apiUrl = import.meta.env.VITE_BASE_API_URL;
+import axios from "../utils/axiosClient.js";
+
 
 const GlobalContext = createContext();
 
@@ -10,8 +10,8 @@ const GlobalProvider = ({ children }) => {
     const [categories, setCategories] = useState([]);
 
     const fetchData = async () => {
-        const { data: tagsData } = await axios.get(`${apiUrl}/tags`);
-        const { data: categoriesData } = await axios.get(`${apiUrl}/categories`);
+        const { data: tagsData } = await axios.get(`/tags`);
+        const { data: categoriesData } = await axios.get(`/categories`);
         setTags(tagsData);
         setCategories(categoriesData);
     }

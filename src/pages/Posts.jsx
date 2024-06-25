@@ -1,15 +1,14 @@
-import axios from "axios";
+import axios from "../utils/axiosClient.js";
 import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard/PostCard.jsx";
 import { Link } from "react-router-dom";
-const apiUrl = import.meta.env.VITE_BASE_API_URL
 
 const Posts = () => {
 
     const [posts, setPosts] = useState(null);
 
     const fetchPosts = async () => {
-        const res = await axios.get(`${apiUrl}/posts`);
+        const res = await axios.get(`/posts`);
         const newPosts = res.data.data;
         setPosts(newPosts);
     }
