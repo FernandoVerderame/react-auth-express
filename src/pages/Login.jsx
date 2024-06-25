@@ -6,8 +6,8 @@ const Login = () => {
     const { login } = useAuth();
 
     const initialData = {
-        email: '',
-        password: ''
+        email: 'fernando@gmail.com',
+        password: '12345678'
     }
 
     const [formData, setFormData] = useState(initialData);
@@ -26,7 +26,7 @@ const Login = () => {
         try {
             await login(formData);
             setFormData(initialData);
-        } catch {
+        } catch (err) {
             setLoginError(err);
         }
     }
@@ -46,7 +46,7 @@ const Login = () => {
                     value={formData.password}
                     onChange={e => changeData('password', e.target.value)}
                 />
-                {loginError !== null && <div className="error">{loginError.message}</div>}
+                {loginError !== null && <div className="text-danger">{loginError.message}</div>}
                 {loginError?.errors && loginError.errors.map((err, index) => (
                     <div key={`err${index}`}>{err.msg}</div>
                 ))}
