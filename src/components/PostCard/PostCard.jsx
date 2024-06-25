@@ -1,8 +1,28 @@
+import { useAuth } from '../../contexts/AuthContext';
 import postCardStyle from './PostCard.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { MdDelete as DeleteBtn } from "react-icons/md";
+import { AiOutlineClose as CloseIcon } from "react-icons/ai";
+import { useEffect, useRef, useState } from 'react';
 
-const PostCard = ({ title, content, image, category, tags, slug, isShow, user }) => {
-    const navigate = useNavigate();
+const PostCard = ({ title, content, image, category, tags, slug, isShow, user, onDelete }) => {
+
+    const [deleteMode, setDeleteMode] = useState(false);
+
+    const dialogRef = useRef();
+
+    useEffect(() => {
+        if (deleteMode) {
+            dialogRef.current.showModal();
+        } else {
+            dialogRef.current.close();
+        }
+    }, [deleteMode]);
+
+    const deletePost = async () => {
+        await onDelete(slug);
+        setDeleteMode(false);
+    }
 
     const tagColors = {
         Action: '#FF1A1A',
@@ -19,8 +39,21 @@ const PostCard = ({ title, content, image, category, tags, slug, isShow, user })
 
     const abstract = () => content ? content.slice(0, 60) + '...' : '';
 
+    const { isLoggedIn } = useAuth();
+
     return (
         <div className={postCardStyle.postCard}>
+
+            {/* DeleteBtn */}
+            <dialog ref={dialogRef}>
+                <div className="d-flex justify-content-between align-items-center">
+                    <h3>Sei sicuro?</h3>
+                    <CloseIcon onClick={() => setDeleteMode(false)} role='button' />
+                </div>
+                <p>Se procedi, eliminerai definitivamente il post con titolo: "{title}".</p>
+                <button onClick={deletePost} className="btn btn-danger">Elimina Pizza</button>
+            </dialog>
+
             <div className={postCardStyle.image}>
                 <img src={image ? image : "https://placehold.co/600x400"} alt={title} className={postCardStyle.img} />
                 {isShow && (
@@ -31,17 +64,17 @@ const PostCard = ({ title, content, image, category, tags, slug, isShow, user })
             </div>
 
             <div className={postCardStyle.bottom}>
-                <h3 className="h5">{title}</h3>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                    <h3 className="h5">{title}</h3>
+                    {isLoggedIn && <DeleteBtn onClick={() => setDeleteMode(true)} className="fs-4" />}
+                </div>
                 <p className={postCardStyle.paragraph}>{abstract()}</p>
                 <div className={postCardStyle.dFlex}>
+
                     {isShow ? (
-                        <button
-                            onClick={() => { navigate(-1) }}
-                            className={postCardStyle.btn}
-                            style={{ backgroundColor: 'gray' }}
-                        >
-                            Torna indietro
-                        </button>
+                        <Link to={`/posts/${slug}/edit`} className="btn btn-warning mt-4">
+                            Modifica
+                        </Link>
                     ) : (
                         <Link to={`/posts/${slug}`} className={postCardStyle.btn}>
                             Leggi di più

@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard/PostCard";
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 const PostDeatil = () => {
+
+    const navigate = useNavigate();
+
     const { slug } = useParams();
     const [post, setPost] = useState(null);
 
@@ -24,7 +27,12 @@ const PostDeatil = () => {
         return () => {
             setPost(null);
         };
-    }, []);
+    }, [slug]);
+
+    const deletePost = async slug => {
+        await axios.delete(`${apiUrl}/posts/${slug}`);
+        navigate('/posts');
+    }
 
     return (
         <section className="container my-4">
@@ -37,8 +45,14 @@ const PostDeatil = () => {
                 content={post?.content}
                 category={post?.category}
                 user={post?.user}
+                onDelete={deletePost}
             />
-            <Link to={`/posts/${slug}/edit`} className="btn btn-warning mt-4">Modifica</Link>
+            <button
+                onClick={() => { navigate(-1) }}
+                className="btn btn-secondary mt-4"
+            >
+                Torna indietro
+            </button>
         </section>
     );
 }
