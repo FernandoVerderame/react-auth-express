@@ -10,9 +10,9 @@ const AuthProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useStorage(false, 'isLoggedIn');
 
-    const login = (payload, redirectTo) => {
+    const login = (payload) => {
         setIsLoggedIn(true);
-        navigate(redirectTo || '/');
+        navigate('/');
     }
 
     const logout = () => {
