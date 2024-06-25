@@ -1,28 +1,59 @@
 import { useAuth } from "../contexts/AuthContext";
+import { useState } from "react";
 
-export default function () {
+const Login = () => {
 
     const { login } = useAuth();
 
-    const handleLogin = e => {
+    const initialData = {
+        email: 'fernando@gmail.com',
+        password: '123123123'
+    }
+
+    const [formData, setFormData] = useState(initialData);
+
+    const [loginError, setLoginError] = useState(null);
+
+    const changeData = (key, value) => {
+        setFormData(curr => ({
+            ...curr,
+            [key]: value
+        }));
+    }
+
+    const handleLogin = async e => {
         e.preventDefault();
-        login();
+        try {
+            await login(formData);
+            setFormData(initialData);
+        } catch {
+            setLoginError(err);
+        }
     }
 
     return (<>
         <section id="login" className="d-flex justify-content-center mt-5">
             <form onSubmit={handleLogin}>
                 <input
-                    type="text"
+                    type="email"
                     placeholder="Email"
+                    value={formData.email}
+                    onChange={e => changeData('email', e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="Password"
+                    value={formData.password}
+                    onChange={e => changeData('password', e.target.value)}
                 />
+                {loginError !== null && <div className="error">{loginError.message}</div>}
+                {loginError?.errors && loginError.errors.map((err, index) => (
+                    <div key={`err${index}`}>{err.msg}</div>
+                ))}
                 <button>Loggati</button>
             </form>
         </section>
     </>)
-
 }
+
+export default Login;
