@@ -46,7 +46,7 @@ const PostDeatil = () => {
                 onDelete={deletePost}
             />
             <button
-                onClick={() => { navigate(-1) }}
+                onClick={() => { navigate('/posts') }}
                 className="btn btn-secondary mt-4"
             >
                 Torna indietro
